@@ -1,0 +1,40 @@
+{
+    "users" : [
+        {
+            "ID": "ID001",
+            "name": "name1",
+            "password": "pass",
+            "balance": 100000
+        },
+        {
+            "ID": "ID002",
+            "name": "name2",
+            "password": "pass",
+            "balance": 100000
+        },
+        {
+            "ID": "ID003",
+            "name": "name3",
+            "password": "pass",
+            "balance": 100000
+        },
+        {
+            "ID": "ID004",
+            "name": "name4",
+            "password": "pass",
+            "balance": 100000
+        },
+        {
+            "ID": "ID005",
+            "name": "name5",
+            "password": "pass",
+            "balance": 100000
+        },
+        {
+            "ID": "ID006",
+            "name": "name6",
+            "password": "pass",
+            "balance": 100000
+        }
+    ]
+}

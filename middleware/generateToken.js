@@ -3,11 +3,20 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.secretKey;
 
 const generateAccessToken = (payload) => {
-    const signedJWT = jwt.sign(payload, secretKey);
+    const signedJWT = jwt.sign(payload, secretKey, { 
+        expiresIn: '10m',
+      });
     return signedJWT;
 }
 
-module.exports = generateAccessToken;
+const generateTransactionToken = (payload) => {
+    const signedJWT = jwt.sign(payload, secretKey, {
+        expiresIn: '2m',
+    });
+    return signedJWT;
+}
+
+module.exports = {generateAccessToken, generateTransactionToken};

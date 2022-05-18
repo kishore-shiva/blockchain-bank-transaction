@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const blockchainInstance = require('../blockchain/blockchain');
-const generateAccessToken = require('../middleware/generateToken');
+const {generateAccessToken, generateTransactionToken} = require('../middleware/generateToken');
+const users = require('../users/users');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,14 +12,25 @@ const secretKey = process.env.SECRET_KEY;
 
 let blockchain = new blockchainInstance.BlockChain();
 let testBlockChain = new blockchainInstance.BlockChain();
+//retrieving all user values:
+fs.readFile("/home/kishoreshiva/Documents/bank transaction blockchain/users/users.json", (err, data) => {
+    if(err) throw err;
+    let users = data;
+    console.log('data is : '+JSON.stringify(JSON.parse(data)));
+})
 
 router.get('/test', (req, res) => {
     res.send('Hello World');
 })
 
 router.post('/login', (req, res) => {
+
+    //authenticate users:
+
     const username = req.body.username;
     const password = req.body.password;
+    
+
     if(username === 'admin' && password === 'admin'){
         const payload = {
             "username" : username,
@@ -31,15 +44,15 @@ router.post('/login', (req, res) => {
     }
 })
 
-router.post('/test/vote', (req, res) => {
+router.post('/test/transaction', (req, res) => {
     const accessToken = req.body.accessToken;
     jwt.verify(accessToken, secretKey, (err, user) => {
         if(err){
             res.status(500).send("token verification failed");
         }
         else{
-            const party = req.body.fromName;
-            const district = req.body.toName;
+            const fromID = req.body.fromID;
+            const toID = req.body.toID;
             let date_ob = new Date();
             let date = ("0" + date_ob.getDate()).slice(-2);
             let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
@@ -70,6 +83,43 @@ router.post('/verifyToken', (req, res) => {
         }
         else{
             res.status(200).send("token succesfully verified");
+        }
+    })
+})
+
+router.post('/create/transaction', (req, res) => {
+    const accessToken = req.body.accessToken;
+    const amount = req.body.amount;
+    if(amount < 100000){
+        res.status(500).send('transaction is only applicable for amount greater than 100000');
+    }
+    else{
+        jwt.verify(accessToken, secretKey, (err, user) => {
+            if(err){
+                res.status(500).send("token verification failed");
+                console.log(err);A
+            }
+            else{
+                const payload = {
+                    accessToken: accessToken,
+                    amount: amount
+                }
+                const xTransactionSignature = generateTransactionToken(payload);
+                res.status(200).json({xTransactionSignature: xTransactionSignature});
+            }
+        });
+    }
+})
+
+router.post('processTransaction', (req, res) => {
+    const xTransactionSignature = req.body.xTransactionSignature;
+    jwt.verify(xTransactionSignature, secretKey, (err, data) => {
+        if(err){
+            res.status(500).send("token verification failed");
+        }
+        else{
+            console.log(data);
+            res.status(200).send("payment successfully processed. ");
         }
     })
 })
