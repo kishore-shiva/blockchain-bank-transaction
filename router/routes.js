@@ -8,7 +8,7 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.secretKey;
 
 let blockchain = new blockchainInstance.BlockChain();
 let testBlockChain = new blockchainInstance.BlockChain();
@@ -94,10 +94,11 @@ router.post('/create/transaction', (req, res) => {
         res.status(500).send('transaction is only applicable for amount greater than 100000');
     }
     else{
+        console.log("secret key : ", secretKey);
         jwt.verify(accessToken, secretKey, (err, user) => {
             if(err){
                 res.status(500).send("token verification failed");
-                console.log(err);A
+                console.log(err);
             }
             else{
                 const payload = {
