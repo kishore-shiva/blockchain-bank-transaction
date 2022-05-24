@@ -74,22 +74,11 @@ class BlockChain {
     }
 
 let a = new Block({name: "kishore1", count:"700"});
-let b = new Block({name:"kishore",count:"500"});
-let c = new Block({name:"kishore",count:"500"});
-let d = new Block({name:"kishore",count:"500"});
-let e = new Block({name:"kishore",count:"500"});
-let f = new Block({name:"kishore",count:"500"});
-let g = new Block({name:"kishore",count:"500"});
  
 let chain = new BlockChain() // Init our chain
 chain.addNewBlock(a); 
-chain.addNewBlock(b);
-chain.addNewBlock(c);
-chain.addNewBlock(d);
-chain.addNewBlock(e);
-chain.addNewBlock(f);
-chain.addNewBlock(g);
 console.log(chain);
+
 // chain.display();
 console.log("Validity: " + chain.checkChainValidity())
 
