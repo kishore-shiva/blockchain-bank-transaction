@@ -13,7 +13,8 @@ const secretKey = process.env.secretKey;
 let blockchain = new blockchainInstance.BlockChain();
 let testBlockChain = new blockchainInstance.BlockChain();
 //retrieving all user values:
-fs.readFile("/home/kishoreshiva/Documents/bank transaction blockchain/users/users.json", (err, data) => {
+
+fs.readFile(__dirname + "/../users/users.json", (err, data) => {
     if(err) throw err;
     let users = data;
     console.log('data is : '+JSON.stringify(JSON.parse(data)));

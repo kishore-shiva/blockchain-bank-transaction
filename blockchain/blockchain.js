@@ -74,9 +74,13 @@ class BlockChain {
     }
 
 let a = new Block({name: "kishore1", count:"700"});
+let b = new Block({name: "user2", count:"700"});
+let c = new Block({name: "user3", count:"700"});
  
 let chain = new BlockChain() // Init our chain
 chain.addNewBlock(a); 
+chain.addNewBlock(b);
+chain.addNewBlock(c);
 console.log(chain);
 
 // chain.display();
